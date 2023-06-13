@@ -73,6 +73,17 @@ final class Test_ClientConverterExtensions: Test_Runtime {
         XCTAssertEqual(request.query, "search=2023-01-18T10:04:11Z")
     }
 
+    //    | client | set | request query | text | date | both | setQueryItemAsText |
+    func test_setQueryItemAsText_dateWithFractionalSeconds_date() throws {
+        var request = testRequest
+        try converter.setQueryItemAsText(
+            in: &request,
+            name: "search",
+            value: testDateWithFractionalSeconds
+        )
+        XCTAssertEqual(request.query, "search=2023-01-18T10:04:11Z") // still encoding dates without fractional seconds
+    }
+
     //    | client | set | request query | text | array of dates | both | setQueryItemAsText |
     func test_setQueryItemAsText_arrayOfDates() throws {
         var request = testRequest
@@ -299,6 +310,16 @@ final class Test_ClientConverterExtensions: Test_Runtime {
             transforming: { $0 }
         )
         XCTAssertEqual(value, testDate)
+    }
+
+    //    | client | get | response body | text | date | required | getResponseBodyAsText |
+    func test_getResponseBodyAsText_dateWithFractionalSeconds_date() throws {
+        let value = try converter.getResponseBodyAsText(
+            Date.self,
+            from: testDateStringWithFractionalSecondsData,
+            transforming: { $0 }
+        )
+        XCTAssertEqual(value, testDateWithFractionalSeconds)
     }
 
     //    | client | get | response body | JSON | codable | required | getResponseBodyAsJSON |
