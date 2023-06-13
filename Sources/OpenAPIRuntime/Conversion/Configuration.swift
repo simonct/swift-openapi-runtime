@@ -33,7 +33,7 @@ public struct ISO8601DateTranscoder: DateTranscoder {
         formatter.formatOptions = formatter.formatOptions.union(.withFractionalSeconds)
         return formatter
     }
-	
+
     /// Creates and returns an ISO 8601 formatted string representation of the specified date.
     public func encode(_ date: Date) throws -> String {
         ISO8601DateFormatter().string(from: date)

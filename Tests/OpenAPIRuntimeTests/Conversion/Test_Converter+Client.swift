@@ -81,7 +81,8 @@ final class Test_ClientConverterExtensions: Test_Runtime {
             name: "search",
             value: testDateWithFractionalSeconds
         )
-        XCTAssertEqual(request.query, "search=2023-01-18T10:04:11Z") // still encoding dates without fractional seconds
+        // confirm that we're still encoding dates without fractional seconds
+        XCTAssertEqual(request.query, "search=2023-01-18T10:04:11Z")
     }
 
     //    | client | set | request query | text | array of dates | both | setQueryItemAsText |
