@@ -28,7 +28,7 @@ public protocol DateTranscoder: Sendable {
 public struct ISO8601DateTranscoder: DateTranscoder {
 
     /// Creates a ISO8601DateFormatter configured to allow fractional seconds in addition to the default options
-    private var fractionalSecondsFormatter: ISO8601DateFormatter {
+    private static var fractionalSecondsFormatter: ISO8601DateFormatter {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [
             .withInternetDateTime,
@@ -47,7 +47,7 @@ public struct ISO8601DateTranscoder: DateTranscoder {
 
     /// Creates and returns a date object from the specified ISO 8601 formatted string representation.
     public func decode(_ dateString: String) throws -> Date {
-        guard let date = ISO8601DateFormatter().date(from: dateString) ?? fractionalSecondsFormatter.date(from: dateString) else {
+        guard let date = ISO8601DateFormatter().date(from: dateString) ?? Self.fractionalSecondsFormatter.date(from: dateString) else {
             throw DecodingError.dataCorrupted(
                 .init(
                     codingPath: [],
