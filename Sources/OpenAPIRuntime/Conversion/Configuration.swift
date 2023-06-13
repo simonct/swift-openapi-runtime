@@ -30,7 +30,7 @@ public struct ISO8601DateTranscoder: DateTranscoder {
     /// Creates a ISO8601DateFormatter configured to allow fractional seconds in addition to the default options
     private static var fractionalSecondsFormatter: ISO8601DateFormatter {
         let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = ISO8601DateFormatter.Options(rawValue: formatter.formatOptions.rawValue | ISO8601DateFormatter.Options.withFractionalSeconds.rawValue)
+        formatter.formatOptions = formatter.formatOptions.union(.withFractionalSeconds)
         return formatter
     }
 	
