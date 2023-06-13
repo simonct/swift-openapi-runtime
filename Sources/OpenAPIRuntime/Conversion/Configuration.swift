@@ -34,6 +34,10 @@ public struct ISO8601DateTranscoder: DateTranscoder {
         return formatter
     }
 
+    private func decode(_ dateString: String) -> Date? {
+        ISO8601DateFormatter().date(from: dateString) ?? Self.fractionalSecondsFormatter.date(from: dateString)
+    }
+
     /// Creates and returns an ISO 8601 formatted string representation of the specified date.
     public func encode(_ date: Date) throws -> String {
         ISO8601DateFormatter().string(from: date)
@@ -41,7 +45,7 @@ public struct ISO8601DateTranscoder: DateTranscoder {
 
     /// Creates and returns a date object from the specified ISO 8601 formatted string representation.
     public func decode(_ dateString: String) throws -> Date {
-        guard let date = ISO8601DateFormatter().date(from: dateString) ?? Self.fractionalSecondsFormatter.date(from: dateString) else {
+        guard let date = decode(dateString) else {
             throw DecodingError.dataCorrupted(
                 .init(
                     codingPath: [],
